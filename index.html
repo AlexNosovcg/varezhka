@@ -533,6 +533,7 @@ const VZ = window.VZ;
 const TARGET_IMG = 'qr.png';     // картинка-метка: QR-код
 const TARGET_MIND = 'qr.mind';   // собранная из неё метка (компилятор MindAR)
 const MITTEN_SCALE = 2.4;        // ширина варежки относительно ширины QR-кода
+const SMOOTH_POS = 9, SMOOTH_ROT = 5;   // плавность: меньше — спокойнее, но с запаздыванием; больше — резче
 const MITTEN_SHIFT = [0, 0];     // сдвиг варежки от центра QR, в ширинах QR (x вправо, y вверх)
 
 async function targetUrl() {
@@ -555,17 +556,34 @@ async function startAR() {
   const { MindARThree } = await import('mindar-image-three');
   const src = await targetUrl();
   VZ.setAR(true);
-  const mindar = new MindARThree({ container: $('ar'), imageTargetSrc: src, uiLoading: 'no', uiScanning: 'no', uiError: 'no', missTolerance: 10 });
+  const mindar = new MindARThree({ container: $('ar'), imageTargetSrc: src, uiLoading: 'no', uiScanning: 'no', uiError: 'no', missTolerance: 12,
+    filterMinCF: 0.0001, filterBeta: 10 });   // сильнее сглаживание встроенного фильтра: меньше дрожания
   const { renderer, scene, camera } = mindar;
   renderer.outputColorSpace = THREE.LinearSRGBColorSpace;   // цвета холста передаём как есть
   const anchor = mindar.addAnchor(0);
+  // Варежка живёт в отдельной группе, которая плавно догоняет положение метки — так гасится дрожание
+  const holder = new THREE.Group(); holder.visible = false; scene.add(holder);
+  const tp = new THREE.Vector3(), tq = new THREE.Quaternion(), ts = new THREE.Vector3();
+  let snapped = false, lastT = performance.now();
+  const follow = () => {
+    const now = performance.now(), dt = Math.min(.1, (now - lastT) / 1000); lastT = now;
+    if (!anchor.group.visible) { holder.visible = false; snapped = false; return; }
+    anchor.group.matrix.decompose(tp, tq, ts);
+    if (!snapped) { holder.position.copy(tp); holder.quaternion.copy(tq); holder.scale.copy(ts); snapped = true; }
+    else {
+      const far = holder.position.distanceTo(tp) / Math.max(1e-6, ts.x);       // сдвиг в ширинах метки
+      const k = 1 - Math.exp(-dt * (SMOOTH_POS + far * 60)), kr = 1 - Math.exp(-dt * SMOOTH_ROT);
+      holder.position.lerp(tp, k); holder.scale.lerp(ts, k); holder.quaternion.slerp(tq, kr);
+    }
+    holder.visible = true;
+  };
   const W = VZ.CW / VZ.art.w * MITTEN_SCALE, H = W * 4 / 3;   // ширина метки (QR) = 1
   const layer = (canvas, order) => {
     const tex = new THREE.CanvasTexture(canvas);
     tex.premultiplyAlpha = true; tex.colorSpace = THREE.NoColorSpace; tex.generateMipmaps = false; tex.minFilter = THREE.LinearFilter;
     const mat = new THREE.MeshBasicMaterial({ map: tex, transparent: true, depthTest: false, depthWrite: false, toneMapped: false,
       blending: THREE.CustomBlending, blendEquation: THREE.AddEquation, blendSrc: THREE.OneFactor, blendDst: THREE.OneMinusSrcAlphaFactor });
-    const mesh = new THREE.Mesh(new THREE.PlaneGeometry(W, H), mat); mesh.renderOrder = order; mesh.position.set(MITTEN_SHIFT[0], MITTEN_SHIFT[1], 0); anchor.group.add(mesh);
+    const mesh = new THREE.Mesh(new THREE.PlaneGeometry(W, H), mat); mesh.renderOrder = order; mesh.position.set(MITTEN_SHIFT[0], MITTEN_SHIFT[1], 0); holder.add(mesh);
     return tex;
   };
   const layers = [layer(VZ.glc, 1), layer(VZ.fxc, 2)];
@@ -575,7 +593,7 @@ async function startAR() {
   anchor.onTargetLost = () => { lostAt = performance.now(); hint('Наведите камеру на QR-код'); };
   await mindar.start();
   hint('Наведите камеру на QR-код');
-  renderer.setAnimationLoop(() => { if (anchor.group.visible) layers.forEach(t => t.needsUpdate = true); renderer.render(scene, camera); });
+  renderer.setAnimationLoop(() => { follow(); if (holder.visible) layers.forEach(t => t.needsUpdate = true); renderer.render(scene, camera); });
 }
 function startPlain(note) {
   VZ.setAR(false); VZ.restart(); hint(note || '');
