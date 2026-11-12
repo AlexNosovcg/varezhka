@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>С Новым годом!</title>
+<script type="importmap">
+{ "imports": {
+  "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+  "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/",
+  "mindar-image-three": "https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-three.prod.js"
+} }
+</script>
+<style>
+  @font-face{font-family:Vz;font-weight:800;font-style:normal;src:url(data:font/woff;base64,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) format('woff')}
+  @font-face{font-family:Vz;font-weight:800;font-style:italic;src:url(data:font/woff;base64,d09GRk9UVE8AAAdUAAwAAAAACTwABAAAAAAAAAAAAAAAAAAAAAAAAAAAAABDRkYgAAABJAAAA2sAAAP6eTNbd0dERUYAAAaQAAAAGwAAACQAGgAER1BPUwAABqwAAAB6AAAA+C0GJPlHU1VCAAAHKAAAACoAAAAquPq49E9TLzIAAAUUAAAAWAAAAGBz33tfY21hcAAABiwAAABMAAAAZAzHDV9oZWFkAAAEkAAAADYAAAA2MGTyjmhoZWEAAATwAAAAIgAAACQWsQw5aG10eAAABMgAAAAoAAAAKDMJAVNtYXhwAAABHAAAAAYAAAAGAApQAG5hbWUAAAVsAAAAwAAAAbwi7ju6cG9zdAAABngAAAAXAAAAIP7AmmwAAFAAAAoAAHicPZBtbFNlFMfv7Xr0BJu76LzwgTqvYRUF2dqyzaGw6V4CzeyyD50wol0qW9nYWEnX+RJ0bnzQjGNAE0MgkClzfiBrQsYSo8YIaOKiiS9oZhRTRyKyoKBuFs/Tndtp2i5++uX5/5/nyTk/XXM6NF3XVwf6E13xTU3PJ+KR+lhfZyAR6evZk2ua1TpNlenK49LU/Q61vkg94Cy9/s6JE8f+dTnkS1cRR13O0h2HXjtKtALX7e7My9lm992fu/F34Jnio0uH7+JLd2qGrmPx6nvKNvq3bI0emTgzPdjf4630NeaxuakAfwGbC6gsoCGPyvo8/L7Kcm9+YKstYEX6O63CoWfAiliJeKSza38k3mvFolZ8YP9AeUPswAvxnr3dCcvv9VVboe6ulfut8di+rj0J6/HBRHcsPlAI/1dgFRzk03y46ZlYX6em6fqrt2m6ph/RtFUOTdeKtIe1N7SsvlaP6VccWx11jtPvGzw0TibfIlhQWVDzBB47C5wmYHLDtyBpgg12Cux5ghsqBXKLwOhTF581VQXxEH9PbCPxlDRxi3xFaJeTjMgsSRZJprhJWvgbwuP8lrmeQrPELiSuvswnuYPwT/qkkeQOJKl6VN6WMKFhjZOpLhDwB8QBdiR5F45zaQUXy4HjyA1n2PHLGCMmuV38/8g0oT1IwIFs2jzLvcAHCX6kqY7h7TgcaIs+Rihb1AYzye3APoI5+nDvcBBHgqHoNkJDMksvLi2a2SSBBJcXgRcI+L7MNVAtBEZaHJIy+TrBBU5BZg1BSFLAVwj+UL+B1BPwvZlfYXkNQY3chKcl1CrHrDasJlC1ZF5On+eq83wIT/8MPJlzOAeGKsu5vkbwhSqBkzfe5cgEN+Cb0jghzWOyCr+2S4DfI+CQKoFPGa5y6yUOYq80dsi+gxvxiVx/lYCDS4tgTxNIre2E8LodsnOX1ODrXHOYnxxKY5tygj1BYCivosykeZF/AllYWVN9RMCfEfdyxTkewXP8ilSxT2YIVSg7aeYt5P7PPVh22vMmhwlu0sftLz2CQ7WBpx4klDCBkZ03OJHZ/ZypLOJTnPyOx1AyBLvFI2u9so1Q6sjzF3EYic9yBf/AM4T8EM15R8WDnCE4xX/LKO+UDKFNJLN2HdnDSLabRyXGy4SGG0rM/wDhdeIhAAABAAAABAAAGVboRF8PPPUAAwgAAAAAAOGAU40AAAAA4YBT1fl//UkUyQjrAAIAAwACAAAAAAAABUAApwX9ABcE9ABABKgAFwOuABcFfP+SBqMAFwavABcBwAAABfMAZ3icY2BkYGA/8E+IgUG0/Gf9l30iJ5lfMCxjQAZcALciCAcAAHicY2BhzWBWYGBlYGA1Zjn7/znDLBDNUM50luES03wGBiYGTmYGEMXCwMDEyIAEgoJ9gxkaGRRYvNkP/BNiYGA/wPiOgYEBrIYljvUSAwODAgMHABJXDyB4nI3OsUrDAABF0ZO2KoLfIJnFSlNNUTKpOHQoFCsO4hJqaCIlkTSC+qF+jxAy2EXLW+5weVwceNIXDA4xp+PAsXnHPUfKjvuefXU8cOq74z2ToNfxvpPg0q3Km0+1wkquERobiUyEHuQyoalSI1MLzdUqrzLL1r72rpGr1DZb5p0PjVrqRmXtxVQjtVZYunBm1C6xUmgMpWJjkXOR2JVY4t7CzELy63v4z/ffFeGW+9h6G4VKKdyxa+eWH9AsQMd4nGNgYGBiYGBgZmBgEGFgZmAE0ywMAQwMDAIMAmBxBRZZFkUWExYbFjsW7///4SJGMJH/L34/+f3i98Xfp34f+b0HbAYKAACu/hQyeJxjYGZg+P9t5qx/xxkuMWABAI/SBcMAeJxjYGRgYOBhgABGBkYGTjDJAMVgEgACygAfAHicnc6xDcIwFIThz7ETOxSZgYIJmAFRUbIABRUoRcQITMFCjBVkix6JJ530Tv97uhOwsbPXHY6ns+l+ecwmCdZV5eF2XWalbk3JqAhNHYrO0j6eXrLs/9mu75ZUftwFuaVHySAbm6uN+takEgZB+LIoGkQ90gcxGAtIAAAAAQAAAAoAJgAoAAJERkxUAA5sYXRuABgABAAAAAD//wAAAAAAAAAAAAAAAA==) format('woff')}
+  html,body{margin:0;height:100%;overflow:hidden;background:#050d45;-webkit-tap-highlight-color:transparent;user-select:none;-webkit-user-select:none;touch-action:none}
+  body{background:
+    radial-gradient(70% 45% at 50% 44%,rgba(70,110,255,.55) 0%,rgba(40,70,220,0) 100%),
+    radial-gradient(130% 100% at 50% 35%,#1a34c8 0%,#0c1f96 45%,#040a3c 100%)}
+  #snow{position:fixed;inset:0;width:100%;height:100%}
+  #wrap{position:fixed;inset:0;perspective:1100px}
+  #stage{position:absolute;left:50%;top:47%;aspect-ratio:3/4;height:min(100vh,160vw);
+    transform:translate(-50%,-50%);will-change:transform}
+  #stage canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+  #replay{position:fixed;left:50%;bottom:max(4vh,env(safe-area-inset-bottom));transform:translateX(-50%);
+    border:1px solid rgba(255,255,255,.5);background:rgba(255,255,255,.1);color:#fff;font:800 15px Vz,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+    letter-spacing:.02em;padding:13px 28px;border-radius:999px;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+    opacity:0;pointer-events:none;transition:opacity .8s;cursor:pointer}
+  #replay.show{opacity:1;pointer-events:auto}
+  #ar{position:fixed;inset:0;overflow:hidden;display:none}
+  body.ar{background:#000}
+  body.ar #ar{display:block}
+  body.ar #snow,body.ar #wrap{display:none}
+  #intro{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;padding:24px;text-align:center;
+    color:#fff;font:800 17px Vz,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;z-index:5;transition:opacity .5s}
+  #intro.hide{opacity:0;pointer-events:none}
+  #intro h1{font-size:30px;line-height:1.15;margin:0}
+  #intro p{margin:0;font-weight:400;font-family:-apple-system,"Segoe UI",Roboto,Arial,sans-serif;opacity:.85;max-width:300px;line-height:1.4}
+  #go{border:0;background:#fff;color:#1a2bd0;font:inherit;padding:16px 34px;border-radius:999px;cursor:pointer;box-shadow:0 8px 30px rgba(0,10,90,.45)}
+  #noar{background:none;border:0;color:#fff;opacity:.75;font:400 14px -apple-system,"Segoe UI",Roboto,Arial,sans-serif;text-decoration:underline;cursor:pointer;padding:8px}
+  #hint{position:fixed;left:50%;top:max(5vh,env(safe-area-inset-top));transform:translateX(-50%);z-index:4;white-space:nowrap;
+    background:rgba(8,16,90,.6);color:#fff;font:800 14px Vz,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;padding:11px 20px;border-radius:999px;
+    backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);opacity:0;transition:opacity .4s;pointer-events:none}
+  #hint.show{opacity:1}
+  #replay{z-index:4}
+</style>
+</head>
+<body>
+<canvas id="snow"></canvas>
+<div id="wrap"><div id="stage"><canvas id="gl"></canvas><canvas id="fx"></canvas></div></div>
+<div id="ar"></div>
+<div id="hint"></div>
+<div id="intro">
+  <h1>Оживи варежку</h1>
+  <p>Разрешите доступ к камере и наведите телефон на варежку</p>
+  <button id="go">Включить камеру</button>
+  <button id="noar">Смотреть без камеры</button>
+</div>
+<button id="replay">Ещё раз</button>
+<script>
+(async () => {
+'use strict';
+/* Чтобы поставить настоящий макет: положите рядом PNG лицевой стороны варежки
+   с прозрачным фоном под именем mitten.png. Из этой же картинки делается метка targets.mind. */
+const ART_URL = 'mitten.png';
+
+const LW = 600, LH = 800;            // логическое поле макета
+const PAD = 1.3;                     // холст шире макета — место для свечения и тени
+const CW = LW * PAD, CH = LH * PAD, OX = (CW - LW) / 2, OY = (CH - LH) / 2;
+const T = 1.5, TW = LW * T, TH = LH * T;   // разрешение текстур
+const FC0 = [338, 395], FC1 = [338, 618], FS1 = 0.3, FR = 150, FSPAN = 360;
+
+const mk = (w, h) => { const c = document.createElement('canvas'); c.width = w; c.height = h; return c; };
+const clamp = v => Math.max(0, Math.min(1, v));
+const easeIO = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+const easeO = t => 1 - Math.pow(1 - t, 3);
+function rng(a) { return () => { a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+
+try { await Promise.all([document.fonts.load('800 40px Vz', 'Традиции'), document.fonts.load('italic 800 40px Vz', 'С Новым')]); } catch (e) {}
+
+/* ---------- Макет (кадр 1) ---------- */
+function mittenPath(g) {
+  g.beginPath();
+  g.moveTo(190, 772); g.lineTo(470, 772); g.quadraticCurveTo(488, 772, 489, 752);
+  g.bezierCurveTo(505, 640, 522, 480, 516, 330); g.bezierCurveTo(510, 140, 425, 38, 322, 38);
+  g.bezierCurveTo(212, 38, 158, 125, 160, 255); g.lineTo(163, 372);
+  g.bezierCurveTo(132, 322, 84, 296, 56, 326); g.bezierCurveTo(24, 362, 52, 450, 104, 522);
+  g.bezierCurveTo(138, 566, 166, 612, 172, 660); g.lineTo(171, 752); g.quadraticCurveTo(172, 772, 190, 772);
+  g.closePath();
+}
+function star4(g, x, y, r) {
+  g.beginPath();
+  for (let i = 0; i < 8; i++) { const a = i * Math.PI / 4, rr = i % 2 ? r * .3 : r; g.lineTo(x + Math.cos(a) * rr, y + Math.sin(a) * rr); }
+  g.closePath(); g.fill();
+}
+function drawPlaceholder() {
+  const c = mk(TW, TH), g = c.getContext('2d');
+  g.scale(T, T); mittenPath(g); g.save(); g.clip();
+  const bg = g.createLinearGradient(100, 0, 500, 800);
+  bg.addColorStop(0, '#2a3df0'); bg.addColorStop(.55, '#1f2bd8'); bg.addColorStop(1, '#1820b8');
+  g.fillStyle = bg; g.fillRect(0, 0, LW, LH);
+  const silver = (y0, y1) => { const s = g.createLinearGradient(0, y0, 0, y1);
+    s.addColorStop(0, '#ffffff'); s.addColorStop(.42, '#cfd5e2'); s.addColorStop(.5, '#f4f6fa'); s.addColorStop(.58, '#b9c0d0'); s.addColorStop(1, '#e6e9f1'); return s; };
+  g.fillStyle = g.strokeStyle = '#e9ecf4'; g.lineWidth = 2.6; g.lineCap = 'round';
+  [[250,95,20],[400,112,26],[300,172,18],[470,236,22],[215,208,24],[455,600,20],[232,640,26],[352,668,18],[96,408,20],[405,690,16]]
+    .forEach(([x, y, l]) => { g.beginPath(); g.moveTo(x, y); g.lineTo(x, y + l); g.stroke(); });
+  [[205,300,10],[472,332,11],[424,560,9],[296,604,10],[140,474,9],[352,128,8]].forEach(([x, y, r]) => star4(g, x, y, r));
+  g.save(); g.translate(338, 388); g.rotate(-0.075);
+  g.textAlign = 'center'; g.textBaseline = 'alphabetic';
+  g.shadowColor = 'rgba(4,8,90,.45)'; g.shadowOffsetY = 4; g.shadowBlur = 6;
+  g.fillStyle = silver(-95, -25); g.font = 'italic 800 68px Vz,Georgia,serif'; g.fillText('С Новым', -4, -22);
+  g.fillStyle = silver(-15, 62);  g.font = 'italic 800 80px Vz,Georgia,serif'; g.fillText('годом', 6, 52);
+  g.fillStyle = silver(72, 112);
+  g.beginPath(); g.moveTo(-158, 80); g.quadraticCurveTo(0, 104, 158, 74); g.lineTo(146, 88); g.lineTo(160, 100);
+  g.quadraticCurveTo(0, 130, -160, 106); g.lineTo(-146, 93); g.closePath(); g.fill();
+  g.restore();
+  g.fillStyle = '#d5dae8'; g.textAlign = 'center'; g.font = '800 25px Vz,Arial,sans-serif';
+  try { g.letterSpacing = '1px'; } catch (e) {}
+  g.fillText('RIS GROUP', 332, 738);
+  g.restore();
+  return c;
+}
+const ART = { src: null, w: LW };   // картинка-метка и её ширина в логических единицах
+async function loadArt() {
+  if (!ART_URL || location.protocol === 'file:') return drawPlaceholder();
+  try {
+    const img = new Image(); img.src = ART_URL; await img.decode();
+    const c = mk(TW, TH), g = c.getContext('2d'), m = 0.035;
+    const k = Math.min(TW * (1 - 2 * m) / img.width, TH * (1 - 2 * m) / img.height);
+    g.drawImage(img, (TW - img.width * k) / 2, (TH - img.height * k) / 2, img.width * k, img.height * k);
+    g.getImageData(0, 0, 1, 1);
+    ART.src = img; ART.w = img.width * k / T;
+    return c;
+  } catch (e) { return drawPlaceholder(); }
+}
+const baseCanvas = await loadArt();
+if (!ART.src) ART.src = baseCanvas;
+
+/* ---------- Мягкая маска силуэта (на весь холст): фронт инея, тень, ореол ---------- */
+const MW = 195, MH = 260, MK = MW / CW;
+const M = (() => {
+  const c = mk(MW, MH), g = c.getContext('2d');
+  g.drawImage(baseCanvas, OX * MK, OY * MK, LW * MK, LH * MK);
+  const img = g.getImageData(0, 0, MW, MH), d = img.data;
+  let a = new Float32Array(MW * MH);
+  for (let i = 0; i < a.length; i++) a[i] = d[i * 4 + 3] / 255;
+  const pass = (src, r, dx, dy) => { const o = new Float32Array(src.length), n = 2 * r + 1;
+    for (let y = 0; y < MH; y++) for (let x = 0; x < MW; x++) { let s = 0;
+      for (let k = -r; k <= r; k++) { const xx = x + k * dx, yy = y + k * dy; if (xx >= 0 && xx < MW && yy >= 0 && yy < MH) s += src[yy * MW + xx]; }
+      o[y * MW + x] = s / n; } return o; };
+  for (let p = 0; p < 3; p++) a = pass(pass(a, 8, 1, 0), 8, 0, 1);
+  for (let i = 0; i < a.length; i++) { const v = Math.round(clamp(a[i]) * 255); d[i*4] = d[i*4+1] = d[i*4+2] = v; d[i*4+3] = 255; }
+  g.putImageData(img, 0, 0);
+  const at = (x, y) => { const ix = Math.round((x + OX) * MK), iy = Math.round((y + OY) * MK);
+    return ix < 0 || iy < 0 || ix >= MW || iy >= MH ? 0 : a[iy * MW + ix]; };
+  return { canvas: c, a, at };
+})();
+
+/* ---------- Иней: ледяные «папоротники», растущие от края. Яркость + время появления ---------- */
+function genFrost() {
+  const rnd = rng(11), NT = 48, SPEED = 0.0027, buckets = [];
+  const seg = (x0, y0, x1, y1, t, d) => { const k = d * NT + Math.min(NT - 1, Math.max(0, Math.floor(t * NT)));
+    const p = buckets[k] || (buckets[k] = new Path2D()); p.moveTo(x0 * T, y0 * T); p.lineTo(x1 * T, y1 * T); };
+  function fern(x, y, ang, len, t, d) {
+    const STEP = d === 0 ? 5 : 4, n = Math.floor(len / STEP), curve = (rnd() - .5) * (d === 0 ? .09 : .03);
+    for (let i = 0; i < n; i++) {
+      const nx = x + Math.cos(ang) * STEP, ny = y + Math.sin(ang) * STEP;
+      if (M.at(nx, ny) < .34) break;
+      seg(x, y, nx, ny, t, d); x = nx; y = ny; ang += curve + (rnd() - .5) * .06; t += STEP * SPEED;
+      if (d < 2 && i > 0 && i % 2 === 0) {
+        const bl = Math.min((n - i) * STEP * .6, d === 0 ? 64 : 13) * (.5 + rnd() * .5);
+        if (bl > 5) { fern(x, y, ang + 1.05, bl, t, d + 1); fern(x, y, ang - 1.05, bl, t, d + 1); }
+      }
+    }
+  }
+  // затравки по контуру
+  const cand = [];
+  for (let y = 1; y < MH - 1; y++) for (let x = 1; x < MW - 1; x++) { const v = M.a[y * MW + x];
+    if (v > .43 && v < .5) cand.push([x, y, rnd()]); }
+  cand.sort((p, q) => p[2] - q[2]);
+  const seeds = [];
+  for (const [x, y] of cand) {
+    const lx = x / MK - OX, ly = y / MK - OY;
+    if (seeds.some(s => Math.hypot(s[0] - lx, s[1] - ly) < 27)) continue;
+    const gx = M.a[y * MW + x + 1] - M.a[y * MW + x - 1], gy = M.a[(y + 1) * MW + x] - M.a[(y - 1) * MW + x];
+    seeds.push([lx, ly, Math.atan2(gy, gx)]);
+  }
+  for (const [x, y, a] of seeds) fern(x, y, a + (rnd() - .5) * .9, 90 + rnd() * rnd() * 240, rnd() * .1, 0);
+  // ледяные «цветы» в середине и мелкие иглы
+  for (let i = 0, k = 0; i < 400 && k < 7; i++) { const x = 60 + rnd() * 480, y = 60 + rnd() * 700;
+    if (M.at(x, y) < .95) continue; k++; const a0 = rnd() * 6.28, t0 = .5 + rnd() * .22;
+    for (let j = 0; j < 6; j++) fern(x, y, a0 + j * Math.PI / 3, 45 + rnd() * 50, t0, 0); }
+  for (let i = 0, k = 0; i < 4000 && k < 420; i++) { const x = rnd() * LW, y = rnd() * LH, m = M.at(x, y);
+    if (m < .5) continue; k++; const t = clamp((1 - m) * .9 + .12 + rnd() * .45), a0 = rnd() * 3.14, l = 3 + rnd() * 6;
+    for (let j = 0; j < 3; j++) { const a = a0 + j * Math.PI / 3; seg(x - Math.cos(a) * l, y - Math.sin(a) * l, x + Math.cos(a) * l, y + Math.sin(a) * l, t, 2); } }
+
+  const ci = mk(TW, TH), gi = ci.getContext('2d'), ct = mk(TW, TH), gt = ct.getContext('2d');
+  gi.fillStyle = '#000'; gi.fillRect(0, 0, TW, TH); gi.globalCompositeOperation = 'lighter'; gi.lineCap = 'round';
+  gt.fillStyle = '#fff'; gt.fillRect(0, 0, TW, TH); gt.globalCompositeOperation = 'darken'; gt.lineCap = 'round';
+  const LWID = [2.1, 1.25, .8], ALPHA = [.95, .72, .5];
+  for (let d = 0; d < 3; d++) for (let ti = 0; ti < NT; ti++) { const p = buckets[d * NT + ti]; if (!p) continue;
+    gi.lineWidth = LWID[d] * T; gi.strokeStyle = `rgba(255,255,255,${ALPHA[d]})`; gi.stroke(p);
+    const v = Math.round((ti + .5) / NT * 250); gt.lineWidth = (LWID[d] + 2.2) * T; gt.strokeStyle = `rgb(${v},${v},${v})`; gt.stroke(p); }
+  return [ci, ct];
+}
+const [fernI, fernT] = genFrost();
+
+/* ---------- Текст поздравления ---------- */
+const msgCanvas = (() => {
+  const c = mk(TW, TH), g = c.getContext('2d');
+  g.fillStyle = '#000'; g.fillRect(0, 0, TW, TH); g.scale(T, T);
+  g.fillStyle = '#fff'; g.textAlign = 'center'; g.textBaseline = 'alphabetic';
+  const lines = ['Традиции', 'будущего', 'начинаются', 'с тебя!']; let size = 56;
+  g.font = `800 ${size}px Vz,-apple-system,"Segoe UI",Roboto,Arial,sans-serif`;
+  const wmax = Math.max(...lines.map(l => g.measureText(l).width));
+  if (wmax > 312) { size *= 312 / wmax; g.font = `800 ${size}px Vz,-apple-system,"Segoe UI",Roboto,Arial,sans-serif`; }
+  lines.forEach((l, i) => g.fillText(l, 340, 292 + i * size * 1.17));
+  for (const s of [-1, 1]) { const gr = g.createLinearGradient(FC1[0] + s * 62, 0, FC1[0] + s * 150, 0);
+    gr.addColorStop(0, '#fff'); gr.addColorStop(1, '#000'); g.strokeStyle = gr; g.lineWidth = 3; g.lineCap = 'round';
+    g.beginPath(); g.moveTo(FC1[0] + s * 62, FC1[1]); g.lineTo(FC1[0] + s * 150, FC1[1]); g.stroke();
+    g.beginPath(); g.arc(FC1[0] + s * 62, FC1[1], 3.5, 0, 7); g.fill(); }
+  return c;
+})();
+
+/* ---------- Снежинка: штрихи в порядке «рисования пальцем» ---------- */
+const FLAKE = (() => {
+  const segs = [], R = FR;
+  for (let i = 0; i < 6; i++) {
+    const a = -Math.PI / 2 + i * Math.PI / 3, ca = Math.cos(a), sa = Math.sin(a);
+    segs.push([[0, 0], [ca * R, sa * R]]);
+    [[.3, .3], [.5, .25], [.68, .19], [.84, .11]].forEach(([t, l]) => { const bx = ca * R * t, by = sa * R * t;
+      for (const s of [1, -1]) { const b = a + s * Math.PI / 3; segs.push([[bx, by], [bx + Math.cos(b) * R * l, by + Math.sin(b) * R * l]]); } });
+  }
+  for (let i = 0; i < 6; i++) { const a1 = i * Math.PI / 3, a2 = a1 + Math.PI / 3, r = R * .14;
+    segs.push([[Math.cos(a1) * r, Math.sin(a1) * r], [Math.cos(a2) * r, Math.sin(a2) * r]]); }
+  const lens = segs.map(([a, b]) => Math.hypot(b[0] - a[0], b[1] - a[1]));
+  return { segs, lens, total: lens.reduce((s, x) => s + x, 0) };
+})();
+const FCV = 512, flakeCanvas = mk(FCV, FCV), fg = flakeCanvas.getContext('2d');
+function drawFlake(progress) {
+  fg.setTransform(1, 0, 0, 1, 0, 0); fg.globalCompositeOperation = 'source-over';
+  fg.fillStyle = '#000'; fg.fillRect(0, 0, FCV, FCV);
+  if (progress <= 0) return null;
+  const k = FCV / FSPAN; fg.setTransform(k, 0, 0, k, FCV / 2, FCV / 2);
+  fg.lineCap = 'round'; fg.lineJoin = 'round'; fg.globalCompositeOperation = 'lighter';
+  let left = progress * FLAKE.total, tip = null; const path = new Path2D();
+  for (let i = 0; i < FLAKE.segs.length && left > 0; i++) {
+    const [a, b] = FLAKE.segs[i], L = FLAKE.lens[i], t = Math.min(1, left / L);
+    tip = [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t];
+    path.moveTo(a[0], a[1]); path.lineTo(tip[0], tip[1]); left -= L;
+  }
+  fg.strokeStyle = 'rgba(0,255,0,.45)'; fg.lineWidth = 26; fg.stroke(path);
+  fg.strokeStyle = 'rgba(0,255,0,.55)'; fg.lineWidth = 15; fg.stroke(path);
+  fg.strokeStyle = '#ff0000'; fg.lineWidth = 6.2; fg.stroke(path);
+  return tip;
+}
+
+/* ---------- WebGL ---------- */
+const glc = document.getElementById('gl'), fxc = document.getElementById('fx'), fx = fxc.getContext('2d');
+const gl = glc.getContext('webgl', { premultipliedAlpha: true, alpha: true, antialias: false });
+const VS = `attribute vec2 p; varying vec2 vUv; void main(){ vUv=vec2(p.x*.5+.5,.5-p.y*.5); gl_Position=vec4(p,0.,1.); }`;
+const FS = `precision highp float;
+varying vec2 vUv;
+uniform sampler2D uBase,uMask,uFlake,uFernI,uFernT,uMsgT,uBloomN,uBloomW;
+uniform float uTime,uFrost,uHaze,uDraw,uGlow,uFlash,uRing,uRays,uMsg,uSweep,uFS,uMode,uFade;
+uniform vec2 uTilt,uFC;
+float h21(vec2 p){ p=fract(p*vec2(123.34,456.21)); p+=dot(p,p+45.32); return fract(p.x*p.y); }
+float n(vec2 p){ vec2 i=floor(p),f=fract(p); f=f*f*(3.-2.*f);
+  return mix(mix(h21(i),h21(i+vec2(1,0)),f.x),mix(h21(i+vec2(0,1)),h21(i+vec2(1,1)),f.x),f.y); }
+float fbm(vec2 p){ float s=0.,a=.5; for(int i=0;i<4;i++){ s+=a*n(p); p=p*2.03+17.1; a*=.5; } return s/.94; }
+void main(){
+  vec2 uv=(vUv-.5)*${PAD.toFixed(3)}+.5;
+  vec2 P=uv*vec2(600.,800.);
+  float inside=step(0.,uv.x)*step(uv.x,1.)*step(0.,uv.y)*step(uv.y,1.);
+  vec4 b=texture2D(uBase,uv)*inside;
+  float a=b.a;
+  float m=texture2D(uMask,vUv).r;
+  vec3 col=b.rgb, em=vec3(0.);
+  float r=length(P-uFC);
+
+  // фольга: блик бежит по серебру и чуть по самой карточке
+  float mx=max(b.r,max(b.g,b.b)), mn=min(b.r,min(b.g,b.b));
+  float foil=smoothstep(.5,.2,(mx-mn)/max(mx,.001))*smoothstep(.45,.7,mx);
+  float sw=uv.x*.8+uv.y*.35+uTilt.x*.3;
+  float band=exp(-pow((sw-uSweep)*6.,2.));
+  float shim=.5+.5*sin(sw*34.+uTime*1.3+uTilt.y*9.);
+  col+=foil*(band*.6+shim*.07)+(1.-foil)*band*.09;
+
+  // иней: дымка
+  float w=fbm(P*.011);
+  float hz=(1.-m)*1.7+(w-.5)*.8;
+  float th=1.3-uHaze*2.1;
+  float cov=smoothstep(th-.05,th+.2,hz);
+  em+=foil*band*.5*(1.-cov);
+  // иней: папоротники
+  float ft=texture2D(uFernT,uv).r, fi=texture2D(uFernI,uv).r;
+  float fr=uFrost*1.1;
+  float grow=smoothstep(ft,ft+.045,fr)*step(ft,.99);
+  float front=grow*(1.-smoothstep(ft+.03,ft+.22,fr));
+  float fern=fi*grow;
+  float fern2=texture2D(uFernI,uv+vec2(-.0017,-.0015)).r*grow;
+  float spec=clamp((fern-fern2)*1.3,0.,1.);
+
+  vec3 ice=mix(vec3(.16,.30,.88),vec3(.46,.63,1.),smoothstep(.2,.85,w+(m-.75)*.35));
+  col=mix(col,ice,cov*.975);
+  col=mix(col,vec3(.93,.97,1.),clamp(fern*.9,0.,1.)*(1.-cov*.42));
+  col+=spec*.22;
+  col+=front*fi*.7; em+=front*fi*vec3(.55,.78,1.)*.8;
+
+  // искры инея — ловят свет при наклоне
+  vec2 gp=P*.45; float gh=h21(floor(gp)); float gd=length(fract(gp)-.5);
+  float glit=step(.87,gh)*smoothstep(.46,.08,gd)*pow(max(0.,sin(gh*91.7+uTime*(1.+gh*2.6)+dot(uTilt,vec2(gh*41.,gh*57.)))),22.);
+  float frosted=max(cov,clamp(fern,0.,1.));
+  col+=glit*frosted*1.1; em+=glit*frosted*.6;
+
+  // затемнение под текст
+  float cen=smoothstep(.5,1.,m);
+  col=mix(col,col*vec3(.5,.62,1.)+vec3(0.,.02,.1),clamp(uMsg*2.5,0.,1.)*cen*.6);
+
+  // снежинка: палец «протирает» иней, линия светится
+  vec2 fuv=(P-uFC)/(uFS*${FSPAN}.)+.5;
+  vec2 fl=vec2(0.);
+  if(fuv.x>0.&&fuv.x<1.&&fuv.y>0.&&fuv.y<1.) fl=texture2D(uFlake,fuv).rg*uDraw;
+  vec3 fc=vec3(.86,.94,1.);
+  col=mix(col,vec3(.09,.19,.72),fl.g*.55*cov);
+  col=mix(col,fc,fl.r*(.8+.2*uGlow));
+  col+=fl.r*uGlow*.5;
+  em+=fl.r*fc*(.14+uGlow*.5);
+  col+=vec3(.32,.52,1.)*(uGlow*.3*exp(-r/190.)+uFlash*.38*exp(-r/240.));
+  em+=vec3(.3,.5,1.)*uFlash*.3*exp(-r/120.);
+
+  // поздравление «кристаллизуется» сверху вниз
+  float mt=texture2D(uMsgT,uv).r;
+  float thm=(uv.y-.27)/.56+n(P*.045)*.2;
+  float mp=uMsg*1.5-.12;
+  float rev=smoothstep(thm-.04,thm+.04,mp);
+  float mfront=rev*(1.-smoothstep(thm+.05,thm+.32,mp));
+  col=mix(col,vec3(1.),mt*rev);
+  em+=mt*rev*(.3+mfront*1.3)*vec3(.72,.86,1.);
+
+  col+=smoothstep(.66,.5,m)*vec3(.3,.45,1.)*.12*(.4+cov);
+
+  if(uMode>.5){ gl_FragColor=vec4(em*a*uFade,1.); return; }
+
+  vec2 buv=vec2(vUv.x,1.-vUv.y);
+  vec3 extra=texture2D(uBloomN,buv).rgb*.8+texture2D(uBloomW,buv).rgb*1.8;
+  vec2 d=P-uFC; float ang=atan(d.y,d.x); vec2 dir=d/max(r,1.);
+  float spikes=pow(abs(sin(ang*3.)),60.)*exp(-r/(190.*uFS+25.));
+  float beams=n(dir*4.+uTime*.22)*n(dir*9.-uTime*.17); beams=pow(beams,1.4)*exp(-r/(260.*uFS+30.))*2.2;
+  extra+=vec3(.7,.85,1.)*(spikes+beams*.75)*uRays;
+  float rr=uRing*560.;
+  extra+=vec3(.72,.87,1.)*exp(-pow((r-rr)/(9.+uRing*34.),2.))*(1.-uRing)*(1.-uRing)*step(.001,uRing)*.4;
+  extra+=vec3(.42,.62,1.)*smoothstep(0.,.5,m)*(1.-a)*(uHaze*.3+uGlow*.35);
+  float shadow=smoothstep(.04,.62,texture2D(uMask,vUv+vec2(0.,-.014)).r)*.5*(1.-a);
+  vec3 rgb=col*a+extra;
+  float alpha=clamp(a+shadow+dot(extra,vec3(.35,.45,.2)),0.,1.);
+  gl_FragColor=vec4(rgb,alpha)*uFade;
+}`;
+const BFS = `precision mediump float; varying vec2 vUv; uniform sampler2D uT; uniform vec2 uD;
+void main(){ vec2 u=vec2(vUv.x,1.-vUv.y); vec3 c=texture2D(uT,u).rgb*.2270;
+  c+=(texture2D(uT,u+uD).rgb+texture2D(uT,u-uD).rgb)*.1946;
+  c+=(texture2D(uT,u+uD*2.).rgb+texture2D(uT,u-uD*2.).rgb)*.1216;
+  c+=(texture2D(uT,u+uD*3.).rgb+texture2D(uT,u-uD*3.).rgb)*.0541;
+  c+=(texture2D(uT,u+uD*4.).rgb+texture2D(uT,u-uD*4.).rgb)*.0162;
+  gl_FragColor=vec4(c,1.); }`;
+function program(vs, fs) {
+  const p = gl.createProgram();
+  for (const [t, s] of [[gl.VERTEX_SHADER, vs], [gl.FRAGMENT_SHADER, fs]]) { const sh = gl.createShader(t); gl.shaderSource(sh, s); gl.compileShader(sh);
+    if (!gl.getShaderParameter(sh, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(sh)); gl.attachShader(p, sh); }
+  gl.bindAttribLocation(p, 0, 'p'); gl.linkProgram(p);
+  if (!gl.getProgramParameter(p, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(p));
+  const u = {}, n = gl.getProgramParameter(p, gl.ACTIVE_UNIFORMS);
+  for (let i = 0; i < n; i++) { const nm = gl.getActiveUniform(p, i).name; u[nm] = gl.getUniformLocation(p, nm); }
+  return { p, u };
+}
+const main = program(VS, FS), blur = program(VS, BFS);
+gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
+gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, 1,1]), gl.STATIC_DRAW);
+gl.enableVertexAttribArray(0); gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0);
+function tex(unit, src, w, h) {
+  const t = gl.createTexture(); gl.activeTexture(gl.TEXTURE0 + unit); gl.bindTexture(gl.TEXTURE_2D, t);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+  if (src) gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, src);
+  else gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, w, h, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
+  return t;
+}
+tex(0, baseCanvas); tex(1, M.canvas); const flakeTex = tex(2, flakeCanvas); tex(3, fernI); tex(4, fernT); tex(5, msgCanvas);
+function target(w, h) { const t = tex(6, null, w, h), f = gl.createFramebuffer();
+  gl.bindFramebuffer(gl.FRAMEBUFFER, f); gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, t, 0); return { t, f, w, h }; }
+const fbB = target(240, 320), fbC = target(240, 320), fbE = target(60, 80), fbF = target(60, 80);
+gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+gl.useProgram(main.p);
+['uBase', 'uMask', 'uFlake', 'uFernI', 'uFernT', 'uMsgT', 'uBloomN', 'uBloomW'].forEach((n, i) => gl.uniform1i(main.u[n], i));
+gl.useProgram(blur.p); gl.uniform1i(blur.u.uT, 6);
+const bind = (unit, t) => { gl.activeTexture(gl.TEXTURE0 + unit); gl.bindTexture(gl.TEXTURE_2D, t); };
+const quad = (fb, w, h) => { gl.bindFramebuffer(gl.FRAMEBUFFER, fb); gl.viewport(0, 0, w, h); gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4); };
+function blurPass(src, dst, dx, dy) { bind(6, src.t); gl.uniform2f(blur.u.uD, dx, dy); quad(dst.f, dst.w, dst.h); }
+
+/* ---------- Размеры ---------- */
+const stage = document.getElementById('stage');
+let K = 1, AR = false, running = false;
+function fit() {
+  const r = stage.getBoundingClientRect(), dpr = Math.min(2, window.devicePixelRatio || 1);
+  const w = AR ? 690 : Math.max(240, Math.min(1170, Math.round(stage.offsetWidth * dpr))), h = Math.round(w * 4 / 3);
+  if (glc.width !== w) { glc.width = fxc.width = w; glc.height = fxc.height = h; }
+  K = w / CW;
+}
+
+/* ---------- Искры и свет «пальца» ---------- */
+const sprite = (() => { const c = mk(64, 64), g = c.getContext('2d'), gr = g.createRadialGradient(32, 32, 0, 32, 32, 32);
+  gr.addColorStop(0, 'rgba(255,255,255,1)'); gr.addColorStop(.18, 'rgba(215,235,255,.75)'); gr.addColorStop(.5, 'rgba(140,190,255,.22)'); gr.addColorStop(1, 'rgba(120,170,255,0)');
+  g.fillStyle = gr; g.fillRect(0, 0, 64, 64); return c; })();
+let sparks = [];
+function burst(x, y, n, spd, size = 1) {
+  for (let i = 0; i < n; i++) { const a = Math.random() * 6.283, v = (.25 + Math.random()) * spd;
+    sparks.push({ x, y, vx: Math.cos(a) * v, vy: Math.sin(a) * v, life: 1, decay: .5 + Math.random() * 1.1, r: (3 + Math.random() * 7) * size, ph: Math.random() * 6 }); }
+}
+function glowDot(x, y, r, a) { fx.globalAlpha = a; fx.drawImage(sprite, (x + OX - r) * K, (y + OY - r) * K, 2 * r * K, 2 * r * K); }
+function drawFx(dt, t, finger) {
+  fx.clearRect(0, 0, fxc.width, fxc.height); fx.globalCompositeOperation = 'lighter';
+  sparks = sparks.filter(s => (s.life -= s.decay * dt) > 0);
+  for (const s of sparks) { s.x += s.vx * dt * 60; s.y += s.vy * dt * 60; s.vx *= .965; s.vy = s.vy * .965 + .012;
+    glowDot(s.x, s.y, s.r * (.5 + s.life * .8), s.life * (.65 + .35 * Math.sin(t * 18 + s.ph))); }
+  if (finger) { glowDot(finger[0], finger[1], 46, .9); glowDot(finger[0], finger[1], 17, 1); }
+  fx.globalAlpha = 1;
+}
+
+/* ---------- Снег на фоне: три слоя глубины ---------- */
+const snow = document.getElementById('snow'), sg = snow.getContext('2d');
+const dotSharp = (() => { const c = mk(32, 32), g = c.getContext('2d'), gr = g.createRadialGradient(16, 16, 0, 16, 16, 16);
+  gr.addColorStop(0, 'rgba(255,255,255,1)'); gr.addColorStop(.45, 'rgba(255,255,255,.85)'); gr.addColorStop(1, 'rgba(255,255,255,0)'); g.fillStyle = gr; g.fillRect(0, 0, 32, 32); return c; })();
+const dotSoft = (() => { const c = mk(64, 64), g = c.getContext('2d'), gr = g.createRadialGradient(32, 32, 0, 32, 32, 32);
+  gr.addColorStop(0, 'rgba(200,220,255,.55)'); gr.addColorStop(.7, 'rgba(190,215,255,.38)'); gr.addColorStop(1, 'rgba(190,215,255,0)'); g.fillStyle = gr; g.fillRect(0, 0, 64, 64); return c; })();
+let flakes = [], sd = 1;
+function fitSnow() {
+  sd = Math.min(2, window.devicePixelRatio || 1); snow.width = innerWidth * sd; snow.height = innerHeight * sd;
+  const n = Math.round(Math.min(170, innerWidth * innerHeight / 6500));
+  flakes = Array.from({ length: n }, (_, i) => { const z = i % 9 === 0 ? 2 : i % 3 === 0 ? 1 : 0;
+    return { z, x: Math.random() * snow.width, y: Math.random() * snow.height, r: [1.2 + Math.random() * 1.6, 2.5 + Math.random() * 2.5, 9 + Math.random() * 14][z] * sd,
+      v: [.35 + Math.random() * .4, .7 + Math.random() * .6, 1.3 + Math.random() * .9][z] * sd, a: [.75, .7, .32][z] * (.5 + Math.random() * .5), ph: Math.random() * 6.28 }; });
+}
+function drawSnow(time, dt) {
+  sg.clearRect(0, 0, snow.width, snow.height);
+  for (const f of flakes) {
+    f.y += f.v * dt * 60; f.x += (Math.sin(time * .7 + f.ph) * .35 + .12) * (f.z + 1) * sd * dt * 60 - tilt.x * (f.z + 1) * .5 * sd;
+    if (f.y > snow.height + f.r) { f.y = -f.r; f.x = Math.random() * snow.width; }
+    if (f.x > snow.width + f.r) f.x = -f.r; else if (f.x < -f.r) f.x = snow.width + f.r;
+    sg.globalAlpha = f.a; sg.drawImage(f.z === 2 ? dotSoft : dotSharp, f.x - f.r, f.y - f.r, f.r * 2, f.r * 2);
+  }
+}
+const onResize = () => { fit(); fitSnow(); };
+addEventListener('resize', onResize); onResize();
+
+/* ---------- Наклон: палец / мышь / гироскоп ---------- */
+const tilt = { x: 0, y: 0, tx: 0, ty: 0, last: -1e9 };
+addEventListener('pointermove', e => { tilt.tx = (e.clientX / innerWidth - .5) * 2; tilt.ty = (e.clientY / innerHeight - .5) * 2; tilt.last = performance.now(); }, { passive: true });
+addEventListener('deviceorientation', e => { if (e.gamma == null) return;
+  tilt.tx = Math.max(-1, Math.min(1, e.gamma / 28)); tilt.ty = Math.max(-1, Math.min(1, (e.beta - 45) / 28)); tilt.last = performance.now(); }, { passive: true });
+
+/* ---------- Таймлайн по раскадровке ---------- */
+const TL = { fade: [0, .9], sweep: [.5, 2.1], frost: [1.9, 5.7], haze: [3.7, 6.3], draw: [6.7, 10.2], glow: [10.3, 11.2], ring: [10.3, 11.6],
+             move: [12.0, 13.2], msg: [12.9, 15.3], end: 15.9 };
+const ph = ([a, b], t) => clamp((t - a) / (b - a));
+const FREEZE = /^#t-[\d.]+$/.test(location.hash) ? parseFloat(location.hash.slice(3)) : null;   // отладка: #t-8.5 замораживает кадр
+const btn = document.getElementById('replay');
+let start = performance.now(), last = start, burstDone = false, endShown = false, flakeDirty = true, flakeDone = false;
+function restart() { running = true; start = performance.now(); burstDone = endShown = flakeDone = false; flakeDirty = true; sparks = []; btn.classList.remove('show'); }
+btn.addEventListener('click', restart);
+addEventListener('pointerdown', e => { if (endShown && e.target !== btn) restart(); });
+
+function frame(now) {
+  requestAnimationFrame(frame);
+  const dt = Math.min(.05, (now - last) / 1000); last = now;
+  const t = FREEZE != null ? FREEZE : running ? (now - start) / 1000 : 0, time = now / 1000;
+
+  if (now - tilt.last > 2500) { tilt.tx = Math.sin(time * .55) * .32; tilt.ty = Math.cos(time * .4) * .22; }
+  tilt.x += (tilt.tx - tilt.x) * Math.min(1, dt * 4); tilt.y += (tilt.ty - tilt.y) * Math.min(1, dt * 4);
+  const fade = easeO(ph(TL.fade, t));
+  if (!AR) stage.style.transform = `translate(-50%,-50%) rotateY(${(tilt.x * 9).toFixed(2)}deg) rotateX(${(-tilt.y * 7).toFixed(2)}deg) scale(${(.93 + .07 * fade).toFixed(4)})`;
+  if (!AR) drawSnow(time, dt);
+
+  const draw = ph(TL.draw, t), g = easeIO(ph(TL.glow, t)), mv = easeIO(ph(TL.move, t)), ring = ph(TL.ring, t);
+  const since = t - TL.glow[0];
+  const glow = g * (.8 + .2 * Math.sin(t * 3.1)) * (1 - mv * .45);
+  const flash = since > 0 ? Math.exp(-since * 2.6) : 0;
+  const rays = since > 0 ? (Math.min(1, since * 5) * (.3 + .7 * Math.exp(-since * 1.1))) * (1 - mv * .55) : 0;
+  const fcx = FC0[0] + (FC1[0] - FC0[0]) * mv, fcy = FC0[1] + (FC1[1] - FC0[1]) * mv, fs = 1 + (FS1 - 1) * mv;
+
+  let finger = null;
+  if (draw > 0 && draw < 1) { const tip = drawFlake(draw); flakeDirty = true;
+    if (tip) { finger = [FC0[0] + tip[0], FC0[1] + tip[1]]; if (Math.random() < .6) burst(finger[0], finger[1], 1, .7, .7); } }
+  else if (draw >= 1 && !flakeDone) { drawFlake(1); flakeDone = flakeDirty = true; }
+  else if (draw <= 0 && flakeDirty) drawFlake(0);
+  if (flakeDirty) { bind(2, flakeTex); gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, flakeCanvas); flakeDirty = false; }
+
+  if (since >= 0 && !burstDone) { burstDone = true; burst(FC0[0], FC0[1], 46, 4.2, 1.2);
+    for (let i = 0; i < 6; i++) { const a = -Math.PI / 2 + i * Math.PI / 3; burst(FC0[0] + Math.cos(a) * FR, FC0[1] + Math.sin(a) * FR, 12, 2.4); } }
+  if (t > TL.msg[0] && t < TL.end + 60 && Math.random() < .22) burst(185 + Math.random() * 310, 200 + Math.random() * 460, 1, .25, .6);
+  drawFx(dt, t, finger);
+
+  gl.useProgram(main.p); const u = main.u;
+  gl.uniform1f(u.uTime, time % 1000); gl.uniform1f(u.uFrost, ph(TL.frost, t)); gl.uniform1f(u.uHaze, easeIO(ph(TL.haze, t)));
+  gl.uniform1f(u.uDraw, draw > 0 ? 1 : 0); gl.uniform1f(u.uGlow, glow); gl.uniform1f(u.uFlash, flash);
+  gl.uniform1f(u.uRing, ring >= 1 ? 0 : easeO(ring)); gl.uniform1f(u.uRays, rays); gl.uniform1f(u.uMsg, ph(TL.msg, t));
+  gl.uniform1f(u.uSweep, -.4 + 2.3 * easeIO(ph(TL.sweep, t))); gl.uniform1f(u.uFS, fs); gl.uniform1f(u.uFade, fade);
+  gl.uniform2f(u.uTilt, tilt.x, tilt.y); gl.uniform2f(u.uFC, fcx, fcy);
+  bind(6, null); bind(7, null);
+  gl.uniform1f(u.uMode, 1); quad(fbB.f, fbB.w, fbB.h);
+  gl.useProgram(blur.p);
+  blurPass(fbB, fbC, 1.3 / 240, 0); blurPass(fbC, fbB, 0, 1.3 / 320);
+  blurPass(fbB, fbE, 1.4 / 60, 0); blurPass(fbE, fbF, 0, 1.4 / 80);
+  gl.useProgram(main.p); bind(6, fbB.t); bind(7, fbF.t);
+  gl.uniform1f(u.uMode, 0); gl.bindFramebuffer(gl.FRAMEBUFFER, null); gl.viewport(0, 0, glc.width, glc.height);
+  gl.clearColor(0, 0, 0, 0); gl.clear(gl.COLOR_BUFFER_BIT); gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+
+  if (t > TL.end && !endShown) { endShown = true; btn.classList.add('show'); }
+}
+requestAnimationFrame(frame);
+if (FREEZE != null) { running = true; document.getElementById('intro').classList.add('hide'); }
+window.VZ = { CW, art: ART, glc, fxc, restart, shift: ms => { start += ms; },
+  setAR: on => { AR = on; document.body.classList.toggle('ar', on); onResize(); }, get running() { return running; } };
+window.dispatchEvent(new Event('vz-ready'));
+})();
+</script>
+<script type="module">
+/* ---------- AR: распознавание варежки (MindAR) и наложение анимации ---------- */
+const $ = id => document.getElementById(id);
+const hint = (text) => { $('hint').textContent = text || ''; $('hint').classList.toggle('show', !!text); };
+if (!window.VZ) await new Promise(r => addEventListener('vz-ready', r, { once: true }));
+const VZ = window.VZ;
+
+async function targetUrl() {
+  try {   // готовая метка, собранная заранее компилятором MindAR
+    const r = await fetch('targets.mind');
+    if (r.ok && !(r.headers.get('content-type') || '').includes('text/html')) return URL.createObjectURL(await r.blob());
+  } catch (e) {}
+  // запасной путь: собрать метку из картинки прямо в браузере (медленнее, несколько секунд)
+  hint('Готовим метку…');
+  await import('https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image.prod.js');
+  const compiler = new window.MINDAR.IMAGE.Compiler();
+  let img = VZ.art.src;
+  if (img instanceof HTMLCanvasElement) { const i = new Image(); i.src = img.toDataURL(); await i.decode(); img = i; }
+  await compiler.compileImageTargets([img], p => hint(`Готовим метку… ${Math.round(p)}%`));
+  return URL.createObjectURL(new Blob([await compiler.exportData()]));
+}
+
+async function startAR() {
+  hint('Загрузка…');
+  const THREE = await import('three');
+  const { MindARThree } = await import('mindar-image-three');
+  const src = await targetUrl();
+  VZ.setAR(true);
+  const mindar = new MindARThree({ container: $('ar'), imageTargetSrc: src, uiLoading: 'no', uiScanning: 'no', uiError: 'no', missTolerance: 10 });
+  const { renderer, scene, camera } = mindar;
+  renderer.outputColorSpace = THREE.LinearSRGBColorSpace;   // цвета холста передаём как есть
+  const anchor = mindar.addAnchor(0);
+  const W = VZ.CW / VZ.art.w, H = W * 4 / 3;                // ширина метки = 1
+  const layer = (canvas, order) => {
+    const tex = new THREE.CanvasTexture(canvas);
+    tex.premultiplyAlpha = true; tex.colorSpace = THREE.NoColorSpace; tex.generateMipmaps = false; tex.minFilter = THREE.LinearFilter;
+    const mat = new THREE.MeshBasicMaterial({ map: tex, transparent: true, depthTest: false, depthWrite: false, toneMapped: false,
+      blending: THREE.CustomBlending, blendEquation: THREE.AddEquation, blendSrc: THREE.OneFactor, blendDst: THREE.OneMinusSrcAlphaFactor });
+    const mesh = new THREE.Mesh(new THREE.PlaneGeometry(W, H), mat); mesh.renderOrder = order; anchor.group.add(mesh);
+    return tex;
+  };
+  const layers = [layer(VZ.glc, 1), layer(VZ.fxc, 2)];
+  let lostAt = 0;
+  anchor.onTargetFound = () => { hint('');
+    if (!VZ.running) VZ.restart(); else if (lostAt) VZ.shift(performance.now() - lostAt); lostAt = 0; };
+  anchor.onTargetLost = () => { lostAt = performance.now(); hint('Наведите камеру на варежку'); };
+  await mindar.start();
+  hint('Наведите камеру на варежку');
+  renderer.setAnimationLoop(() => { if (anchor.group.visible) layers.forEach(t => t.needsUpdate = true); renderer.render(scene, camera); });
+}
+function startPlain(note) {
+  VZ.setAR(false); VZ.restart(); hint(note || '');
+  if (note) setTimeout(() => hint(''), 3500);
+}
+$('go').addEventListener('click', async () => {
+  $('intro').classList.add('hide');
+  try { await startAR(); }
+  catch (e) { console.warn('AR недоступен:', e); startPlain('Камера недоступна — показываем анимацию'); }
+});
+$('noar').addEventListener('click', () => { $('intro').classList.add('hide'); startPlain(); });
+</script>
+</body>
+</html>
