@@ -53,7 +53,7 @@
 <div id="hint"></div>
 <div id="intro">
   <h1>Оживи варежку</h1>
-  <p>Разрешите доступ к камере и наведите телефон на варежку</p>
+  <p>Разрешите доступ к камере и снова наведите телефон на QR-код</p>
   <button id="go">Включить камеру</button>
   <button id="noar">Смотреть без камеры</button>
 </div>
@@ -530,18 +530,21 @@ const $ = id => document.getElementById(id);
 const hint = (text) => { $('hint').textContent = text || ''; $('hint').classList.toggle('show', !!text); };
 if (!window.VZ) await new Promise(r => addEventListener('vz-ready', r, { once: true }));
 const VZ = window.VZ;
+const TARGET_IMG = 'qr.png';     // картинка-метка: QR-код
+const TARGET_MIND = 'qr.mind';   // собранная из неё метка (компилятор MindAR)
+const MITTEN_SCALE = 2.4;        // ширина варежки относительно ширины QR-кода
+const MITTEN_SHIFT = [0, 0];     // сдвиг варежки от центра QR, в ширинах QR (x вправо, y вверх)
 
 async function targetUrl() {
   try {   // готовая метка, собранная заранее компилятором MindAR
-    const r = await fetch('targets.mind');
+    const r = await fetch(TARGET_MIND);
     if (r.ok && !(r.headers.get('content-type') || '').includes('text/html')) return URL.createObjectURL(await r.blob());
   } catch (e) {}
   // запасной путь: собрать метку из картинки прямо в браузере (медленнее, несколько секунд)
   hint('Готовим метку…');
   await import('https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image.prod.js');
   const compiler = new window.MINDAR.IMAGE.Compiler();
-  let img = VZ.art.src;
-  if (img instanceof HTMLCanvasElement) { const i = new Image(); i.src = img.toDataURL(); await i.decode(); img = i; }
+  const img = new Image(); img.src = TARGET_IMG; await img.decode();
   await compiler.compileImageTargets([img], p => hint(`Готовим метку… ${Math.round(p)}%`));
   return URL.createObjectURL(new Blob([await compiler.exportData()]));
 }
@@ -556,22 +559,22 @@ async function startAR() {
   const { renderer, scene, camera } = mindar;
   renderer.outputColorSpace = THREE.LinearSRGBColorSpace;   // цвета холста передаём как есть
   const anchor = mindar.addAnchor(0);
-  const W = VZ.CW / VZ.art.w, H = W * 4 / 3;                // ширина метки = 1
+  const W = VZ.CW / VZ.art.w * MITTEN_SCALE, H = W * 4 / 3;   // ширина метки (QR) = 1
   const layer = (canvas, order) => {
     const tex = new THREE.CanvasTexture(canvas);
     tex.premultiplyAlpha = true; tex.colorSpace = THREE.NoColorSpace; tex.generateMipmaps = false; tex.minFilter = THREE.LinearFilter;
     const mat = new THREE.MeshBasicMaterial({ map: tex, transparent: true, depthTest: false, depthWrite: false, toneMapped: false,
       blending: THREE.CustomBlending, blendEquation: THREE.AddEquation, blendSrc: THREE.OneFactor, blendDst: THREE.OneMinusSrcAlphaFactor });
-    const mesh = new THREE.Mesh(new THREE.PlaneGeometry(W, H), mat); mesh.renderOrder = order; anchor.group.add(mesh);
+    const mesh = new THREE.Mesh(new THREE.PlaneGeometry(W, H), mat); mesh.renderOrder = order; mesh.position.set(MITTEN_SHIFT[0], MITTEN_SHIFT[1], 0); anchor.group.add(mesh);
     return tex;
   };
   const layers = [layer(VZ.glc, 1), layer(VZ.fxc, 2)];
   let lostAt = 0;
   anchor.onTargetFound = () => { hint('');
     if (!VZ.running) VZ.restart(); else if (lostAt) VZ.shift(performance.now() - lostAt); lostAt = 0; };
-  anchor.onTargetLost = () => { lostAt = performance.now(); hint('Наведите камеру на варежку'); };
+  anchor.onTargetLost = () => { lostAt = performance.now(); hint('Наведите камеру на QR-код'); };
   await mindar.start();
-  hint('Наведите камеру на варежку');
+  hint('Наведите камеру на QR-код');
   renderer.setAnimationLoop(() => { if (anchor.group.visible) layers.forEach(t => t.needsUpdate = true); renderer.render(scene, camera); });
 }
 function startPlain(note) {
